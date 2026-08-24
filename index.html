@@ -102,6 +102,7 @@
 
   /* GRID CARDS */
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;}
+  .teams-grid{grid-template-columns:0.75fr 1.25fr;}
   .card{border:1px solid #2a2a2a;padding:20px;background:#111;}
   .card b{color:var(--red);display:block;font-size:13px;letter-spacing:1px;margin-bottom:8px;text-transform:uppercase;}
   .card p{font-size:14px;color:#cfcfcf;}
@@ -121,7 +122,7 @@
   footer{padding:50px 0;text-align:center;color:var(--grey);font-size:13px;border-bottom:none;min-height:auto;}
 
   @media(max-width:800px){
-    .grid2,.simgrid{grid-template-columns:1fr;}
+    .grid2,.simgrid,.teams-grid{grid-template-columns:1fr;}
     h1{font-size:34px;}
     nav ul{gap:12px;font-size:10.5px;}
     nav{padding:14px 16px;}
@@ -233,10 +234,10 @@
   <div class="wrap">
     <h2>Why The Roundabout Works</h2>
     <div class="grid2" style="margin-top:24px;">
-      <div class="card"><b>Zero T-Bone Risk</b><p>No perpendicular collision geometry, only merge angles.</p></div>
-      <div class="card"><b>Unbroken Fluidity</b><p>Continuous flow, no full stops, no dead time.</p></div>
-      <div class="card"><b>Drift Zone Built In</b><p>The 3/4 Turn variant adds visible drifting behavior for spectacle.</p></div>
-      <div class="card"><b>Tunable Drama</b><p>Dial intensity between configurations — same hub, same patent.</p></div>
+      <div class="card"><b style="font-size:18px;">Zero T-Bone Risk</b><p style="font-size:20px;">No perpendicular collision geometry, only merge angles.</p></div>
+      <div class="card"><b style="font-size:18px;">Unbroken Fluidity</b><p style="font-size:20px;">Continuous flow, no full stops, no dead time.</p></div>
+      <div class="card"><b style="font-size:18px;">Drift Zone Built In</b><p style="font-size:20px;">The 3/4 Turn variant adds visible drifting behavior for spectacle.</p></div>
+      <div class="card"><b style="font-size:18px;">Tunable Drama</b><p style="font-size:20px;">Dial intensity between configurations — same hub, same patent.</p></div>
     </div>
     <div class="kicker">The intersection didn't disappear. It got better.</div>
 
@@ -267,7 +268,7 @@
   <div class="wrap">
     <h3 class="eyebrow">Unfair Advantage</h3>
     <h2>Teams & Drivers</h2>
-    <div class="grid2">
+    <div class="grid2 teams-grid">
       <div class="card">
         <b style="font-size:18px;">For Teams & Drivers</b>
         <p style="font-size:20px;">Low entry costs, easy conversion, high run density.<br>
