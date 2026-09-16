@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>THE 8 – JEVRA.JP RACING (3D)</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #060c14;
+            overflow: hidden;
+            font-family: 'Consolas', 'Courier New', monospace;
+            width: 100%;
+            height: 100%;
+        }
+        #scene-container {
+            position: fixed;
+            inset: 0;
+        }
+        #scene-container canvas {
+            display: block;
+        }
+        #hud {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: min(400px, 92vw);
+            padding: 10px 12px;
+            background: rgba(9, 17, 28, 0.28);
+            border: 1px solid rgba(80, 200, 235, 0.18);
+            color: rgba(150, 190, 210, 0.45);
+            font-size: 11px;
+            line-height: 1.5;
+            pointer-events: none;
+            z-index: 10;
+        }
+        #hud h1 {
+            margin: 0 0 4px 0;
+            font-size: 15px;
+            color: rgba(90, 220, 255, 0.5);
+            letter-spacing: 1px;
+        }
+        #hud .sub {
+            color: rgba(150, 190, 210, 0.35);
+            font-size: 10px;
+            margin-bottom: 6px;
+        }
+        #leaderboard {
+            font-size: 10.5px;
+        }
+        #leaderboard .row {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: pre;
+        }
+        #leaderboard .swatch {
+            display: inline-block;
+            width: 8px;
+            height: 10px;
+            flex: 0 0 auto;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+        #progress-bars {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(320px, 90vw);
+            padding: 8px 12px;
+            background: rgba(9, 17, 28, 0.28);
+            border: 1px solid rgba(80, 200, 235, 0.18);
+            color: rgba(200, 200, 210, 0.35);
+            font-size: 10px;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .pbar-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        .pbar-label {
+            width: 28px;
+            flex: 0 0 auto;
+        }
+        .pbar-track {
+            flex: 1 1 auto;
+            height: 10px;
+            background: rgba(40, 40, 50, 0.7);
+            position: relative;
+        }
+        .pbar-fill {
+            height: 100%;
+            width: 0%;
+        }
+        .pbar-pct {
+            width: 34px;
+            flex: 0 0 auto;
+            text-align: right;
+        }
+        #controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px 12px;
+            background: rgba(9, 17, 28, 0.28);
+            border: 1px solid rgba(80, 200, 235, 0.18);
+            color: rgba(150, 190, 210, 0.4);
+            font-size: 10.5px;
+            line-height: 1.6;
+            z-index: 10;
+        }
+        #controls button {
+            display: block;
+            width: 100%;
+            margin-top: 6px;
+            padding: 6px 8px;
+            background: rgba(80, 200, 235, 0.06);
+            border: 1px solid rgba(80, 200, 235, 0.22);
+            color: rgba(150, 220, 245, 0.55);
+            font-family: inherit;
+            font-size: 10.5px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+        }
+        #controls button:hover {
+            background: rgba(80, 200, 235, 0.25);
+        }
+        #controls button.active {
+            background: rgba(90, 220, 255, 0.35);
+            color: #fff;
+        }
+        canvas#gameCanvas { display: none; }
+        body.presentation-mode #hud,
+        body.presentation-mode #progress-bars,
+        body.presentation-mode #controls {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        #hud, #progress-bars, #controls { transition: opacity 0.4s ease; }
+        #title-card {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            background: rgba(6, 12, 20, 0.72);
+            opacity: 1;
+            transition: opacity 1.1s ease;
+            pointer-events: none;
+        }
+        #title-card.fade-out { opacity: 0; }
+        #title-card h2 {
+            margin: 0;
+            font-size: 42px;
+            letter-spacing: 4px;
+            color: rgb(120, 230, 255);
+            text-shadow: 0 0 24px rgba(90, 220, 255, 0.6);
+        }
+        #title-card .patent {
+            margin-top: 10px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            color: rgba(190, 220, 235, 0.85);
+        }
+        #citation-card {
+            position: fixed;
+            left: 50%;
+            bottom: 110px;
+            transform: translateX(-50%);
+            max-width: 700px;
+            padding: 4px 10px;
+            text-align: center;
+            background: transparent;
+            color: rgba(210, 230, 245, 0.0);
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            z-index: 40;
+            opacity: 0;
+            filter: blur(0px);
+            text-shadow: 0 0 0 rgba(120, 210, 255, 0);
+            transition: opacity 2.6s ease, text-shadow 2.6s ease, filter 2.6s ease;
+            pointer-events: none;
+            text-transform: uppercase;
+            color: rgba(210, 230, 245, 0.55);
+        }
+        /* subliminal watermark: soft glow breathes in, never a hard-edged
+           card -- opacity stays low even at peak, no background/border */
+        #citation-card.show {
+            opacity: 1;
+            text-shadow: 0 0 18px rgba(120, 210, 255, 0.55), 0 0 40px rgba(120, 210, 255, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="1000" height="900"></canvas>
+    <div id="scene-container"></div>
+
+    <div id="hud">
+        <h1>JEVRA.JP — THE 8</h1>
+        <div class="sub">DESIGN PROTOTYPE — 3D TECHNICAL PREVIEW</div>
+        <div id="leaderboard">Loading grid…</div>
+    </div>
+
+    <div id="progress-bars">
+        <div class="pbar-row"><div class="pbar-label">EV2</div><div class="pbar-track"><div class="pbar-fill" id="pbar-EV2" style="background:rgb(150,255,150);"></div></div><div class="pbar-pct" id="ppct-EV2">0%</div></div>
+        <div class="pbar-row"><div class="pbar-label">EV3</div><div class="pbar-track"><div class="pbar-fill" id="pbar-EV3" style="background:rgb(80,200,255);"></div></div><div class="pbar-pct" id="ppct-EV3">0%</div></div>
+        <div class="pbar-row"><div class="pbar-label">EV4</div><div class="pbar-track"><div class="pbar-fill" id="pbar-EV4" style="background:rgb(255,80,80);"></div></div><div class="pbar-pct" id="ppct-EV4">0%</div></div>
+    </div>
+
+    <div id="title-card">
+        <h2>THE 8</h2>
+        <div class="patent">PATENT PENDING — USPTO #64/073,919</div>
+    </div>
+
+    <div id="citation-card"></div>
+
+    <div id="controls">
+        DRAG: orbit &nbsp; SCROLL: zoom &nbsp; RIGHT-DRAG: pan
+        <button id="flyBtn">▶ START DRONE FLYTHROUGH</button>
+        <button id="resetBtn">⟲ RESET CAMERA</button>
+        <button id="presoBtn">🎬 PRESENTATION MODE (H)</button>
+    </div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import * as THREE from "three";
+        import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+
+        // ── SETUP ────────────────────────────────────────────────────────────
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const WIDTH = 1000,
+            HEIGHT = 900;
+
+        // ── PALETTE (BLUEPRINT / CAD SCHEMATIC) ───────────────────────────────────────
+        const BG_COLOR = [9, 17, 28];
+        const ASPHALT = [14, 26, 42];
+        const LANE_YEL = [90, 220, 255];   // main-road centerline: cyan
+        const LANE_WHT = [200, 225, 235];  // cross-road centerline: pale cyan-white
+        const BLUEPRINT_LINE = [80, 200, 235];
+        const GRID_LINE = [40, 80, 100];
+        const SPEC_ZONE = [190, 195, 200]; // light grey spectator-zone fill
+
+        // ── TRACK OFFSET ──────────────────────────────────────────────────────────
+        const TRACK_OFFSET_Y = 80;
+
+        // ── TRACK SEGMENTS (8 segments forming a rectangle with a crossover) ──
+        const segments = [
+            [
+                [100, 400 + TRACK_OFFSET_Y],
+                [500, 400 + TRACK_OFFSET_Y]
+            ],
+            [
+                [500, 400 + TRACK_OFFSET_Y],
+                [900, 400 + TRACK_OFFSET_Y]
+            ],
+            [
+                [900, 400 + TRACK_OFFSET_Y],
+                [900, 100 + TRACK_OFFSET_Y]
+            ],
+            [
+                [900, 100 + TRACK_OFFSET_Y],
+                [500, 100 + TRACK_OFFSET_Y]
+            ],
+            [
+                [500, 100 + TRACK_OFFSET_Y],
+                [500, 400 + TRACK_OFFSET_Y]
+            ],
+            [
+                [500, 400 + TRACK_OFFSET_Y],
+                [500, 700 + TRACK_OFFSET_Y]
+            ],
+            [
+                [500, 700 + TRACK_OFFSET_Y],
+                [100, 700 + TRACK_OFFSET_Y]
+            ],
+            [
+                [100, 700 + TRACK_OFFSET_Y],
+                [100, 400 + TRACK_OFFSET_Y]
+            ],
+        ];
+        const TRACK_W = 80;
+        const HALF_W = TRACK_W / 2;
+        const IX = 500,
+            IY = 400 + TRACK_OFFSET_Y;
+
+        // ── RACE PARAMETERS ──────────────────────────────────────────────────────
+        const LAP_KM = 2.8;                 // track length: 1 canvas unit == 1 metre (2800 units total)
+        const TOTAL_LAPS = 20;              // 20 x 2.8km = 56.0km (nearest whole-lap match to 55km target)
+        const RACE_KM = LAP_KM * TOTAL_LAPS;
+        let raceStarted = false;
+        let startTimer = 0;
+        const START_DELAY = 120;
+        const GREEN_LIGHT = 180;
+
+        // ── INTERSECTION TUNING (improved) ──────────────────────────────────────
+        const BRAKE_START = 0.45;        // start yielding earlier
+        const YIELD_P = 0.82;            // commit point
+        const BLOCK_ON = 80;             // increased to start slowing earlier
+        const BLOCK_OFF = 160;           // increased to hold block longer
+        const COLLISION_R = 60;          // hard-stop threshold: actual physical distance
+                                          // between the two cars' real (rendered) positions,
+                                          // not just approach distance along the main road.
+                                          // Sized with real stopping distance in mind (a fast
+                                          // EV2 needs several ticks to actually shed speed).
+        const DECEL_ALPHA = 0.115;       // smoother decel (+15% braking strength)
+        const ACCEL_ALPHA = 0.08;
+
+        // ── CAR DATA ──────────────────────────────────────────────────────────────
+        const CAR_DATA = [
+            { id: 201, color: [255, 60, 60], type: "Tesla M3 Perf", speed_range: [1.317, 1.488], cls: "EV2" },
+            { id: 202, color: [255, 140, 0], type: "Hyundai IONIQ 5N", speed_range: [1.317, 1.488], cls: "EV2" },
+            { id: 203, color: [80, 255, 120], type: "BMW i4 M50", speed_range: [1.292, 1.462], cls: "EV2" },
+            { id: 204, color: [0, 220, 255], type: "BYD Seal AWD", speed_range: [1.275, 1.445], cls: "EV2" },
+            { id: 301, color: [220, 220, 220], type: "Nissan Leaf e+", speed_range: [1.105, 1.258], cls: "EV3" },
+            { id: 302, color: [255, 220, 60], type: "MG4 XPower", speed_range: [1.105, 1.258], cls: "EV3" },
+            { id: 303, color: [120, 180, 255], type: "VW ID.3 GTX", speed_range: [1.088, 1.241], cls: "EV3" },
+            { id: 304, color: [180, 255, 180], type: "Megane E-Tech", speed_range: [1.088, 1.241], cls: "EV3" },
+            { id: 401, color: [255, 120, 180], type: "Honda e", speed_range: [0.807, 0.952], cls: "EV4" },
+            { id: 402, color: [120, 255, 255], type: "Nissan Sakura", speed_range: [0.807, 0.952], cls: "EV4" },
+            { id: 403, color: [255, 255, 255], type: "Mini Electric", speed_range: [0.807, 0.952], cls: "EV4" },
+            { id: 404, color: [180, 180, 180], type: "Fiat 500e", speed_range: [0.807, 0.952], cls: "EV4" },
+        ];
+
+        // ── BEZIER CORNER HELPERS ──────────────────────────────────────────────────
+        const CORNER_R = 26;
+
+        function segUv(idx) {
+            const [
+                [x1, y1],
+                [x2, y2]
+            ] = segments[idx];
+            const d = Math.hypot(x2 - x1, y2 - y1);
+            return [(x2 - x1) / d, (y2 - y1) / d];
+        }
+
+        function segLen(idx) {
+            const [
+                [x1, y1],
+                [x2, y2]
+            ] = segments[idx];
+            return Math.hypot(x2 - x1, y2 - y1);
+        }
+
+        function bz2(p0, p1, p2, t) {
+            const u = 1 - t;
+            return [
+                u * u * p0[0] + 2 * u * t * p1[0] + t * t * p2[0],
+                u * u * p0[1] + 2 * u * t * p1[1] + t * t * p2[1]
+            ];
+        }
+
+        function bz2Ang(p0, p1, p2, t) {
+            const u = 1 - t;
+            const tx = 2 * u * (p1[0] - p0[0]) + 2 * t * (p2[0] - p1[0]);
+            const ty = 2 * u * (p1[1] - p0[1]) + 2 * t * (p2[1] - p1[1]);
+            return Math.atan2(ty, tx);
+        }
+
+        function smoothDraw(si, progress) {
+            const [
+                [x1, y1],
+                [x2, y2]
+            ] = segments[si];
+            const dx = x2 - x1,
+                dy = y2 - y1;
+            const L = Math.hypot(dx, dy);
+            if (L < 1) return [x1, y1, 0.0];
+
+            const ux = dx / L,
+                uy = dy / L;
+            const de = L * (1 - progress);
+            const ds = L * progress;
+
+            if (de < CORNER_R && L > CORNER_R * 2.2) {
+                const nxt = (si + 1) % 8;
+                if (segLen(nxt) > CORNER_R * 2.2) {
+                    const [nux, nuy] = segUv(nxt);
+                    const jx = x2,
+                        jy = y2;
+                    const P0 = [jx - CORNER_R * ux, jy - CORNER_R * uy];
+                    const P1 = [jx, jy];
+                    const P2 = [jx + CORNER_R * nux, jy + CORNER_R * nuy];
+                    const t = 0.5 * (1 - de / CORNER_R);
+                    const [bx, by] = bz2(P0, P1, P2, t);
+                    return [bx, by, bz2Ang(P0, P1, P2, Math.max(t, 1e-4))];
+                }
+            }
+
+            if (ds < CORNER_R && L > CORNER_R * 2.2) {
+                const prv = (si - 1 + 8) % 8;
+                if (segLen(prv) > CORNER_R * 2.2) {
+                    const [pux, puy] = segUv(prv);
+                    const jx = x1,
+                        jy = y1;
+                    const P0 = [jx - CORNER_R * pux, jy - CORNER_R * puy];
+                    const P1 = [jx, jy];
+                    const P2 = [jx + CORNER_R * ux, jy + CORNER_R * uy];
+                    const t = 0.5 + 0.5 * ds / CORNER_R;
+                    const [bx, by] = bz2(P0, P1, P2, t);
+                    return [bx, by, bz2Ang(P0, P1, P2, Math.min(t, 1 - 1e-4))];
+                }
+            }
+
+            return [x1 + dx * progress, y1 + dy * progress, Math.atan2(dy, dx)];
+        }
+
+        // ── PARTICLES ──────────────────────────────────────────────────────────────────
+        class Particle {
+            constructor(x, y, color, lifeMult = 1) {
+                this.x = x + (Math.random() * 4 - 2);
+                this.y = y + (Math.random() * 4 - 2);
+                this.vx = (Math.random() - 0.5) * 2.5;
+                this.vy = (Math.random() - 0.5) * 2.5;
+                this.life = this.max_life = Math.floor(Math.random() * 13 + 6) * lifeMult;
+                this.color = color;
+                this.size = Math.floor(Math.random() * 3) + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vx *= 0.94;
+                this.vy *= 0.94;
+                this.life--;
+            }
+            draw(ctx) {
+                const a = this.life / this.max_life;
+                const [r, g, b] = this.color;
+                ctx.fillStyle =
+                    `rgba(${Math.min(255, r*a+15)}, ${Math.min(255, g*a+15)}, ${Math.min(255, b*a+15)}, ${a})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, Math.max(1, this.size * a), 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        const particles = [];
+
+        // ── CAR CLASS ──────────────────────────────────────────────────────────────
+        class Car {
+            constructor(car_id, color, car_type, speed_range, cls) {
+                this.id = car_id;
+                this.color = color;
+                this.type = car_type;
+                this.cls = cls;
+                this.base_speed = speed_range[0] + Math.random() * (speed_range[1] - speed_range[0]);
+                this.speed = 0;
+                this.segment = 4;
+                this.progress = 0;
+                this.offset = 0;
+                this.targetOffset = 0;
+                this.laps = 0;
+                this.state = "normal";
+                this._blocked = false;
+                this._committed = false;
+                this.vis_angle = Math.PI / 2;
+                this._exhaust_t = 0;
+                this._isOvertaking = false;
+                this._overtakeTimer = 0;
+
+                // ── AGGRESSIVE / BUMP BEHAVIOR (reduced chance) ──
+                this.isAggressive = false;
+                this._aggressiveChecked = false;
+                this._aggressiveCooldown = 0;
+                this.bumpTimer = 0;
+                this.bumpOffset = 0;
+                this._bumpParticlesSpawned = false;
+                // High-water mark of progress reached on the CURRENT pass
+                // through segment 4. Used (instead of a simple committed
+                // flag, which could be set then aborted a tick later) to
+                // decide whether this car has genuinely been deep in/through
+                // the box at some point -- only then is it safe to exempt it
+                // from the stop-line clamp below.
+                this._maxProgressThisPass = 0;
+            }
+
+            nearestHoriz(cars) {
+                let best = Infinity;
+                for (let o of cars) {
+                    if (o === this || (o.segment !== 0 && o.segment !== 1)) continue;
+                    const [[sx], [ex]] = segments[o.segment];
+                    const ox = sx + (ex - sx) * o.progress;
+                    const d = Math.abs(ox - IX);
+                    if (d < best) best = d;
+                }
+                return best;
+            }
+
+            // Real physical distance to the nearest MAIN-ROAD car, using each
+            // car's actual rendered position (including lane offset from
+            // overtaking) rather than an approach-distance proxy. This is the
+            // late, close-range safety net that catches cases the early
+            // approach-distance check can miss.
+            renderPos() {
+                const [dx, dy, da] = smoothDraw(this.segment, this.progress);
+                const perp = da + Math.PI / 2;
+                let off = this.offset;
+                if (this.bumpTimer > 0) off = this.bumpOffset + (this.offset - this.bumpOffset) * 0.05;
+                return [dx + Math.cos(perp) * off, dy + Math.sin(perp) * off];
+            }
+
+            nearestPhysicalHazard(cars) {
+                let best = Infinity;
+                const [mx, my] = this.renderPos();
+                for (let o of cars) {
+                    if (o === this || (o.segment !== 0 && o.segment !== 1)) continue;
+                    const [ox, oy] = o.renderPos();
+                    const d = Math.hypot(mx - ox, my - oy);
+                    if (d < best) best = d;
+                }
+                return best;
+            }
+
+            canChangeLane(cars, targetOffset) {
+                const safeDist = 0.05;
+                const safeLateral = 20;
+                for (let o of cars) {
+                    if (o === this) continue;
+                    if (o.segment !== this.segment) continue;
+                    let diff = (o.progress - this.progress + 1) % 1;
+                    if (diff < safeDist && diff > 0) {
+                        if (Math.abs(o.offset - targetOffset) < safeLateral) return false;
+                    }
+                    let diff2 = (this.progress - o.progress + 1) % 1;
+                    if (diff2 < safeDist && diff2 > 0) {
+                        if (Math.abs(o.offset - targetOffset) < safeLateral) return false;
+                    }
+                }
+                return true;
+            }
+
+            spawnBumpParticles(x, y) {
+                const colors = [
+                    this.color,
+                    [255, 200, 50],
+                    [255, 100, 50],
+  
