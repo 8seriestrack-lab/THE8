@@ -121,10 +121,18 @@
   .audience{background:#111;border:1px solid #2a2a2a;padding:44px;}
   .audience .tag{color:var(--red);font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:block;}
 
+  /* TEAM */
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:28px;}
+  .team-card{border:1px solid #2a2a2a;background:#111;padding:26px 20px;text-align:center;}
+  .team-card img{width:140px;height:140px;object-fit:cover;border-radius:4px;margin:0 auto 16px;display:block;}
+  .team-name{font-weight:800;letter-spacing:0.5px;text-transform:uppercase;font-size:15px;color:var(--white);}
+  .team-role{font-size:13px;color:var(--grey);margin-top:6px;margin-bottom:14px;line-height:1.4;}
+  .team-link{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--red);}
+
   footer{padding:50px 0;text-align:center;color:var(--grey);font-size:13px;border-bottom:none;min-height:auto;}
 
   @media(max-width:800px){
-    .grid2,.simgrid,.teams-grid{grid-template-columns:1fr;}
+    .grid2,.simgrid,.teams-grid,.team-grid{grid-template-columns:1fr;}
     h1{font-size:34px;}
     nav ul{gap:12px;font-size:10.5px;}
     nav{padding:14px 16px;}
@@ -148,6 +156,7 @@
     <li><a href="#format">Format</a></li>
     <li><a href="https://drive.google.com/drive/folders/1KSTYtILiauVdmnGp8QZ-kVL9ZxNZFvgS?usp=sharing" target="_blank" rel="noopener">Sims</a></li>
     <li><a href="https://drive.google.com/file/d/12EE4ryMtRXtNSQ2HeBXVqJpoHeWlUPC3/view?usp=sharing" target="_blank" rel="noopener">Deck</a></li>
+    <li><a href="#team">Team</a></li>
     <li><a href="#partners">Partners</a></li>
   </ul>
 </nav>
@@ -308,6 +317,34 @@
       </div>
       <div style="border:1px solid #2a2a2a;overflow:hidden;">
         <img src="https://g.tlcdn.com/view/85bb8554cc9b464388047992d412e914.jpg" alt="Testing the format, thirty years ago" style="width:100%;display:block;filter:grayscale(0.2) contrast(1.1);">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9a. TEAM -->
+<section id="team">
+  <div class="wrap">
+    <h3 class="eyebrow">The People</h3>
+    <h2>The Team</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <img src="https://g.tlcdn.com/gen/a4dc595c8b624af5a9c71c289b465104.png" alt="Serge Lomako">
+        <div class="team-name">Serge Lomako</div>
+        <div class="team-role">Project Lead &amp; Founder</div>
+        <a class="team-link" href="https://www.linkedin.com/in/lomako-serge-553a27358" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+      </div>
+      <div class="team-card">
+        <img src="https://g.tlcdn.com/gen/cbefc71777544f44a2a2d6e219d6ba25.png" alt="Richie Kelleher">
+        <div class="team-name">Richie Kelleher</div>
+        <div class="team-role">Operational Director &amp; Event Set-Up</div>
+        <a class="team-link" href="https://www.linkedin.com/in/richie-kelleher-152036375/" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+      </div>
+      <div class="team-card">
+        <img src="https://g.tlcdn.com/gen/99008f2991b6401f873a3f0cf1e8a0a4.png" alt="Dennis de Kanter">
+        <div class="team-name">Dennis de Kanter</div>
+        <div class="team-role">Advisory Board Member &mdash; Head of Simracing Integrity Program | Examiner</div>
+        <a class="team-link" href="https://www.linkedin.com/in/dennisdekanter/" target="_blank" rel="noopener">LinkedIn &rarr;</a>
       </div>
     </div>
   </div>
