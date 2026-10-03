@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="THE 8 — Financials: market, go-to-market, competitive landscape, and financial projection.">
+<title>THE 8 — Financials</title>
+<style>
+  :root{
+    --black:#0a0a0a;
+    --charcoal:#141414;
+    --red:#e0263d;
+    --white:#f2f2f2;
+    --grey:#9a9a9a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--black);color:var(--white);font-family:'Helvetica Neue',Arial,sans-serif;line-height:1.5;}
+  a{color:var(--red);text-decoration:none;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px;width:100%;}
+  section{padding:70px 0;border-bottom:1px solid #222;}
+  h1,h2,h3{font-weight:800;letter-spacing:-0.5px;text-transform:uppercase;}
+  h1{font-size:46px;line-height:1.08;}
+  h2{font-size:34px;line-height:1.16;margin-bottom:18px;color:var(--white);}
+  h3.eyebrow{font-size:13px;color:var(--red);letter-spacing:2.5px;margin-bottom:10px;}
+  p{color:#cfcfcf;font-size:17px;max-width:760px;}
+  .lede{font-size:21px;color:var(--white);max-width:820px;}
+  .kicker{color:var(--red);font-style:italic;font-size:18px;margin-top:20px;}
+  .badge{display:inline-block;border:1px solid #3a3a3a;color:var(--grey);font-size:11px;letter-spacing:1.5px;padding:5px 11px;border-radius:2px;text-transform:uppercase;margin-top:14px;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 24px;background:rgba(10,10,10,0.85);backdrop-filter:blur(6px);border-bottom:1px solid #1c1c1c;}
+  nav .logo{font-weight:800;font-size:18px;letter-spacing:1px;display:flex;align-items:center;gap:8px;}
+  nav ul{display:flex;gap:20px;list-style:none;font-size:12px;letter-spacing:1px;}
+  nav ul a{color:var(--white);}
+  nav ul a:hover{color:var(--red);}
+
+  .hero-fin{min-height:60vh;display:flex;flex-direction:column;justify-content:center;background:var(--black);}
+  .hero-fin h1{font-size:clamp(34px,6vw,64px);}
+  .hero-fin .sub{font-size:20px;color:var(--grey);margin-top:14px;max-width:760px;}
+
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:start;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;}
+  .card{border:1px solid #2a2a2a;padding:22px;background:#111;}
+  .card .big{font-size:26px;font-weight:800;color:var(--red);margin-bottom:6px;}
+  .card b{color:var(--white);display:block;font-size:14px;letter-spacing:1px;margin-bottom:8px;text-transform:uppercase;}
+  .card p{font-size:14px;color:#cfcfcf;margin:0;}
+  .card .arrow{color:var(--grey);font-size:13px;margin-top:8px;}
+
+  .flow{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;margin:24px 0;}
+  .flow .step{border:1px solid #2a2a2a;background:#111;padding:14px 20px;font-size:13px;letter-spacing:0.5px;text-transform:uppercase;color:var(--white);}
+  .flow .sep{color:var(--red);font-size:20px;}
+
+  .phase{border-left:3px solid var(--red);background:#120d0d;padding:22px 26px;margin-bottom:22px;}
+  .phase .ph-num{color:var(--red);font-size:13px;letter-spacing:2px;text-transform:uppercase;}
+  .phase h3{color:var(--white);font-size:22px;margin:6px 0 4px;text-transform:none;letter-spacing:0;}
+  .phase .year{color:var(--grey);font-size:13px;margin-bottom:10px;display:block;}
+  .phase ul{margin:10px 0 10px 18px;}
+  .phase li{color:#cfcfcf;font-size:15px;margin-bottom:4px;}
+  .phase .rev{color:var(--white);font-size:14px;margin-top:8px;}
+  .phase .rev b{color:var(--red);}
+
+  table{width:100%;border-collapse:collapse;margin-top:16px;font-size:15px;}
+  th,td{border:1px solid #2a2a2a;padding:10px 12px;text-align:left;}
+  th{color:var(--red);text-transform:uppercase;font-size:12px;letter-spacing:1px;}
+  td.center,th.center{text-align:center;}
+  .fin-table{margin-top:22px;}
+  .fin-table th,.fin-table td{text-align:right;}
+  .fin-table th:first-child,.fin-table td:first-child{text-align:left;}
+  .fin-table tr.total td{color:var(--white);font-weight:700;border-top:2px solid var(--red);}
+  .fin-table tr.result td{color:var(--red);font-weight:700;}
+
+  .pillbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+  .pill{border:1px solid #3a3a3a;color:var(--grey);font-size:12px;letter-spacing:1px;padding:7px 14px;border-radius:999px;text-transform:uppercase;}
+
+  .mix-bar{display:flex;height:34px;width:100%;max-width:600px;overflow:hidden;border:1px solid #2a2a2a;margin-top:14px;}
+  .mix-bar div{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;letter-spacing:0.5px;color:#0a0a0a;}
+  .mix-live{background:var(--red);width:70%;}
+  .mix-digital{background:#d8d8d8;width:15%;}
+  .mix-tech{background:#6a6a6a;width:15%;color:#fff;}
+
+  .fundgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:20px;}
+  .fundgrid .fcard{border:1px solid #2a2a2a;background:#111;padding:18px;text-align:center;}
+  .fundgrid .fcard .pct{font-size:28px;font-weight:800;color:var(--red);}
+  .fundgrid .fcard .flabel{font-size:12px;color:var(--grey);margin-top:8px;text-transform:uppercase;letter-spacing:0.5px;}
+
+  .quote-card{border-left:3px solid var(--red);background:#160c0d;padding:22px 28px;max-width:820px;margin-top:26px;}
+  .quote-card p{color:var(--white);font-size:19px;font-style:italic;margin:0;max-width:none;}
+
+  .cta{display:inline-block;margin-top:10px;padding:14px 26px;border:2px solid var(--red);color:var(--white);font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:13px;margin-right:12px;}
+  .cta.solid{background:var(--red);border-color:var(--red);}
+
+  footer{padding:50px 0;text-align:center;color:var(--grey);font-size:13px;min-height:auto;}
+
+  @media(max-width:820px){
+    .grid3,.grid2,.fundgrid{grid-template-columns:1fr;}
+    table{font-size:12px;}
+    th,td{padding:7px 8px;}
+    .flow{gap:10px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo"><img src="https://g.tlcdn.com/gen/dee70e2dc0da48cbba60c5c26fc5efdd.webp" alt="THE 8" style="height:30px;width:auto;border-radius:2px;"></a>
+  <ul>
+    <li><a href="index.html#roundabout">Format</a></li>
+    <li><a href="index.html#vault">Sim Vault</a></li>
+    <li><a href="financials.html">Financials</a></li>
+    <li><a href="index.html#team">Team</a></li>
+    <li><a href="index.html#partners">Partners</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero-fin">
+  <div class="wrap">
+    <h3 class="eyebrow">For Partners &amp; Investors</h3>
+    <h1>Financials</h1>
+    <p class="sub">Market, go-to-market, competitive landscape, and a conservative base-case financial projection for THE 8.</p>
+    <span class="badge">Management Model — Not A Forecast</span>
+  </div>
+</section>
+
+<!-- SLIDE 1 — MARKET -->
+<section id="market">
+  <div class="wrap">
+    <h3 class="eyebrow">Slide 1 — Market</h3>
+    <h2>A $200B+ Digital Audience.<br>A $B+ Motorsport Business.<br><span style="color:var(--red);">THE 8 Connects Them.</span></h2>
+    <p class="lede">THE 8 sits at the intersection of three established markets:</p>
+
+    <div class="grid3" style="margin-top:28px;">
+      <div class="card">
+        <div class="big">$213.9B</div>
+        <b>Games / Simulation</b>
+        <p>Global games market forecast for 2026.</p>
+        <div class="arrow">&rarr; massive, global, digital-first audience</div>
+      </div>
+      <div class="card">
+        <div class="big">~$8.25B</div>
+        <b>Motorsport</b>
+        <p>Global motorsport market in 2025.</p>
+        <div class="arrow">&rarr; teams, promoters, venues, media, sponsors</div>
+      </div>
+      <div class="card">
+        <div class="big">~$5.1B</div>
+        <b>Sponsorship / Brand Activation</b>
+        <p>Global motorsport sponsorship market in 2025.</p>
+        <div class="arrow">&rarr; brands increasingly buy experiences, content and fan engagement</div>
+      </div>
+    </div>
+
+    <h2 style="margin-top:50px;font-size:26px;">THE 8's Beachhead</h2>
+    <p>Not &ldquo;take 1% of a giant market.&rdquo; Start with:</p>
+    <div class="flow">
+      <div class="step">Sim Players</div><div class="sep">&rarr;</div>
+      <div class="step">Motorsport Fans</div><div class="sep">&rarr;</div>
+      <div class="step">Grassroots Promoters</div><div class="sep">&rarr;</div>
+      <div class="step">Live Events</div>
+    </div>
+    <p>A new racing format that can be experienced digitally before it requires a physical venue.</p>
+
+    <p style="margin-top:22px;color:#fff;font-weight:700;">THE 8 monetizes the same IP twice:</p>
+    <div class="flow">
+      <div class="step">Digital — Game / Simulation / Licensing / Virtual Events</div>
+      <div class="sep">&darr;</div>
+      <div class="step">Real — Events / Promoter Licensing / Sponsorship / Team &amp; Venue Ecosystem</div>
+    </div>
+
+    <div class="kicker">Bottom line: the market is already there. THE 8 changes the format.</div>
+  </div>
+</section>
+
+<!-- SLIDE 2 — GTM -->
+<section id="gtm">
+  <div class="wrap">
+    <h3 class="eyebrow">Slide 2 — Go-To-Market</h3>
+    <h2>Sim &rarr; Real<br><span style="color:var(--red);">The Low-Capex Path Into Motorsport</span></h2>
+
+    <div class="phase">
+      <span class="ph-num">Phase 1 — Prove The Game</span>
+      <h3>Build &amp; Release The THE 8 Simulation / Game</h3>
+      <span class="year">2026–27</span>
+      <ul>
+        <li>Low-cost audience acquisition</li>
+        <li>Test race mechanics at scale</li>
+        <li>Build community and content</li>
+        <li>Collect behavioral data</li>
+        <li>Establish THE 8 IP before expensive live events</li>
+      </ul>
+      <div class="rev">Revenue: <b>game sales / IAP / licensing / digital sponsorship</b></div>
+    </div>
+
+    <div class="phase">
+      <span class="ph-num">Phase 2 — Prove The Race</span>
+      <h3>4–6 Cars &rarr; Controlled Test &rarr; Pilot Event</h3>
+      <span class="year">2027</span>
+      <ul>
+        <li>1 km-class test environment</li>
+        <li>2 categories, progressive speeds</li>
+        <li>Controlled intersection/merge experiments</li>
+        <li>Professional drivers</li>
+        <li>Safety validation</li>
+      </ul>
+      <div class="rev">Revenue: <b>pilot sponsorship + technical partnerships</b></div>
+    </div>
+
+    <div class="phase">
+      <span class="ph-num">Phase 3 — Prove The Business</span>
+      <h3>2 &rarr; 5 &rarr; 10 Events</h3>
+      <span class="year">2028–29</span>
+      <p style="margin:6px 0 10px;">Target: independent motorsport promoters · drift/racing communities · abandoned industrial / airfield venues · regional series · sponsor-led events</p>
+      <div class="rev">Revenue: <b>event licensing + promoter fees + sponsorship + media/content</b></div>
+    </div>
+
+    <div class="phase">
+      <span class="ph-num">Phase 4 — Scale The Format</span>
+      <h3>THE 8 Becomes A Licensable Racing Format</h3>
+      <span class="year">2030+</span>
+      <p style="margin:6px 0 10px;">Local promoters operate events. THE 8 supplies:</p>
+      <div class="pillbar">
+        <span class="pill">Format</span><span class="pill">IP</span><span class="pill">Ruleset</span>
+        <span class="pill">Simulation</span><span class="pill">Technical Standard</span><span class="pill">Brand</span>
+      </div>
+      <p style="margin-top:12px;">The capital-intensive part — local cars, venues and event operations — increasingly sits with partners.</p>
+    </div>
+
+    <div class="quote-card">
+      <p>GTM Principle: Don't build the championship first. Build demand for the championship first.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3 — COMPETITIVE LANDSCAPE -->
+<section id="competitive">
+  <div class="wrap">
+    <h3 class="eyebrow">Slide 3 — Competitive Landscape</h3>
+    <h2>Everyone Owns A Piece Of Racing.<br><span style="color:var(--red);">THE 8 Owns The Interaction.</span></h2>
+
+    <div style="width:100%;overflow-x:auto;">
+    <table>
+      <tr>
+        <th>Format</th><th>Core Spectacle</th>
+        <th class="center">Digital-First</th><th class="center">Real-World Scalable</th><th class="center">New Competitive Mechanic</th>
+      </tr>
+      <tr><td>Traditional circuit racing</td><td>Speed / overtaking</td><td class="center">○</td><td class="center">●</td><td class="center">○</td></tr>
+      <tr><td>Drift</td><td>Car control / style</td><td class="center">●</td><td class="center">●</td><td class="center">○</td></tr>
+      <tr><td>EV circuit racing</td><td>Technology / speed</td><td class="center">●</td><td class="center">●</td><td class="center">○</td></tr>
+      <tr><td>Sim racing</td><td>Competition / access</td><td class="center">●●</td><td class="center">○</td><td class="center">○</td></tr>
+      <tr><td>Karting / grassroots</td><td>Accessibility / racing</td><td class="center">○</td><td class="center">●●</td><td class="center">○</td></tr>
+      <tr style="background:#160c0d;"><td style="color:#fff;font-weight:700;">THE 8</td><td style="color:#fff;">Traffic interaction / decision-making</td><td class="center" style="color:var(--red);font-weight:700;">●●</td><td class="center" style="color:var(--red);font-weight:700;">●●</td><td class="center" style="color:var(--red);font-weight:700;">●●</td></tr>
+    </table>
+    </div>
+
+    <p style="margin-top:28px;color:#fff;font-weight:700;">THE 8 does not compete by building a better race car. It competes by changing the race architecture.</p>
+    <div class="grid2" style="margin-top:18px;">
+      <div class="card"><b>Traditional Racing Asks</b><p style="font-size:19px;font-style:italic;color:#fff;">&ldquo;Who is fastest?&rdquo;</p></div>
+      <div class="card" style="border-color:var(--red);"><b style="color:var(--red);">THE 8 Adds</b><p style="font-size:19px;font-style:italic;color:#fff;">&ldquo;Who reads the situation correctly?&rdquo;</p></div>
+    </div>
+
+    <h2 style="margin-top:50px;font-size:24px;">Why This Matters</h2>
+    <div class="grid3" style="margin-top:20px;">
+      <div class="card"><b>Propulsion Agnostic</b><p>ICE &rarr; EV &rarr; hybrid &rarr; future connected vehicles.</p></div>
+      <div class="card"><b>Vehicle Agnostic</b><p>Production-based cars rather than bespoke prototypes.</p></div>
+      <div class="card"><b>Venue Flexible</b><p>Circuits &rarr; industrial sites &rarr; airfields &rarr; purpose-built layouts.</p></div>
+      <div class="card"><b>Digital-Native</b><p>The same rules can exist in simulation before physical deployment.</p></div>
+      <div class="card"><b>Licensable</b><p>The format can travel without THE 8 owning every car or venue.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 — FINANCIAL PROJECTION -->
+<section id="projection">
+  <div class="wrap">
+    <h3 class="eyebrow">Slide 4 — Financial Projection</h3>
+    <h2>Conservative Base Case</h2>
+    <span class="badge">USD — Management Model, Not A Forecast</span>
+
+    <div style="width:100%;overflow-x:auto;">
+    <table class="fin-table">
+      <tr><th></th><th>2027</th><th>2028</th><th>2029</th><th>2030</th><th>2031</th></tr>
+      <tr><td>Digital / game revenue</td><td>$75K</td><td>$150K</td><td>$300K</td><td>$500K</td><td>$750K</td></tr>
+      <tr><td>Live event revenue</td><td>$150K</td><td>$450K</td><td>$1.00M</td><td>$2.00M</td><td>$3.50M</td></tr>
+      <tr><td>Licensing / technical / other</td><td>$25K</td><td>$100K</td><td>$250K</td><td>$500K</td><td>$750K</td></tr>
+      <tr class="total"><td>Total Revenue</td><td>$250K</td><td>$700K</td><td>$1.55M</td><td>$3.00M</td><td>$5.00M</td></tr>
+      <tr><td>Operating costs</td><td>$400K</td><td>$650K</td><td>$1.15M</td><td>$2.10M</td><td>$3.50M</td></tr>
+      <tr class="result"><td>Operating result</td><td>-$150K</td><td>+$50K</td><td>+$400K</td><td>+$900K</td><td>+$1.50M</td></tr>
+    </table>
+    </div>
+
+    <h2 style="margin-top:50px;font-size:24px;">Implied Trajectory</h2>
+    <div class="flow" style="justify-content:flex-start;">
+      <div class="step">2027 — Build + Pilot + Audience</div>
+      <div class="sep">&rarr;</div>
+      <div class="step">2028 — First Repeatable Events</div>
+      <div class="sep">&rarr;</div>
+      <div class="step">2029 — Multi-Market Validation</div>
+      <div class="sep">&rarr;</div>
+      <div class="step">2030 — Format Scales Through Partners</div>
+      <div class="sep">&rarr;</div>
+      <div class="step">2031 — Licensing &amp; Recurring Economics</div>
+    </div>
+
+    <h2 style="margin-top:50px;font-size:24px;">Revenue Mix — 2031</h2>
+    <div class="mix-bar">
+      <div class="mix-live">70% Live / Licensing</div>
+      <div class="mix-digital">15% Digital</div>
+      <div class="mix-tech">15% Technical</div>
+    </div>
+
+    <h2 style="margin-top:50px;font-size:24px;">Capital Logic</h2>
+    <p class="lede">Initial raise: <b style="color:#fff;">$250K–$350K</b></p>
+    <div class="fundgrid">
+      <div class="fcard"><div class="pct">~40%</div><div class="flabel">Simulation / Game Development</div></div>
+      <div class="fcard"><div class="pct">~25%</div><div class="flabel">Physical Validation + Pilot</div></div>
+      <div class="fcard"><div class="pct">~20%</div><div class="flabel">IP / Technical / Regulatory / Insurance</div></div>
+      <div class="fcard"><div class="pct">~15%</div><div class="flabel">GTM, Partnerships &amp; Operating Overhead</div></div>
+    </div>
+
+    <div class="quote-card">
+      <p>THE 8 does not require a championship-sized investment to prove the business. Capital is released in stages: Sim Proof &rarr; Physical Proof &rarr; Commercial Proof &rarr; Scale. The first objective is not to build 20 races. It is to prove that people want to play it, watch it, and then pay to run it.</p>
+    </div>
+  </div>
+</section>
+
+<section id="fin-cta" style="text-align:center;">
+  <div class="wrap">
+    <h2>Build The First Race With Us.</h2>
+    <a class="cta solid" href="mailto:The8.Theseries@gmail.com?subject=THE%208%20%E2%80%94%20Financials%20Follow-Up">Talk To Us</a>
+    <a class="cta" href="index.html#partners">Back To Partners</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    THE 8 — Hyperdrive Racing · One Hub, Three Geometries · Patent Pending USPTO #64/073,919<br>
+    <a href="mailto:The8.Theseries@gmail.com">The8.Theseries@gmail.com</a> · Contact: Serge Lomako
+  </div>
+</footer>
+
+</body>
+</html>
